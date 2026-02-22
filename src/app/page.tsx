@@ -16,15 +16,15 @@ export default function Home() {
           Crowdfr
         </div>
         <div className="flex items-center gap-3 md:gap-8">
-          <Link href="/pricing" className="hidden sm:block text-sm font-semibold text-zinc-400 hover:text-white transition-colors">
+          <Link href="/pricing" className="text-xs md:text-sm font-semibold text-zinc-400 hover:text-white transition-colors">
             Pricing
           </Link>
-          <Link href="/login" className="hidden sm:block text-sm font-semibold text-zinc-400 hover:text-white transition-colors">
+          <Link href="/login" className="text-xs md:text-sm font-semibold text-zinc-400 hover:text-white transition-colors">
             Log In
           </Link>
           <Link
             href="/register"
-            className="px-5 md:px-6 py-2.5 bg-white text-black rounded-full text-xs md:text-sm font-bold hover:bg-zinc-200 transition-all hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(255,255,255,0.1)] whitespace-nowrap"
+            className="px-4 md:px-6 py-2 md:py-2.5 bg-white text-black rounded-full text-[11px] md:text-sm font-bold hover:bg-zinc-200 transition-all hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(255,255,255,0.1)] whitespace-nowrap"
           >
             Get Started
           </Link>
