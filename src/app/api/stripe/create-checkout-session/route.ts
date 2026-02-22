@@ -5,6 +5,8 @@ import { prisma } from "@/lib/prisma"
 import { stripe } from "@/lib/stripe"
 import { getTier } from "@/lib/pricing"
 
+export const dynamic = "force-dynamic"
+
 export async function POST(req: Request) {
     try {
         const session = await getServerSession(authOptions)
@@ -42,15 +44,10 @@ export async function POST(req: Request) {
         }
 
         // If trying to switch to free tier, handle that separately (downgrade)
-        // For now, let's assume this endpoint is only for paid upgrades/switches via Stripe
         if (targetTier.price === 0) {
-            // Logic for manual downgrade without Stripe checkout would go here
-            // But usually we redirect them to Customer Portal for cancelling paid plans
             return NextResponse.json({ message: "Use billing portal to cancel subscription" }, { status: 400 })
         }
 
-        // This relies on having a stripePriceId. If using test keys, you need test price IDs.
-        // We fallback to a "price_PLACEHOLDER" if not set, which will fail if not replaced.
         const priceId = targetTier.stripePriceId || "price_H5ggYmf5g"
 
         // If organization already has a stripe customer ID, use it
@@ -82,8 +79,8 @@ export async function POST(req: Request) {
                     quantity: 1
                 }
             ],
-            success_url: `${process.env.NEXTAUTH_URL}/dashboard/settings/billing?success=true`,
-            cancel_url: `${process.env.NEXTAUTH_URL}/dashboard/settings/billing?canceled=true`,
+            success_url: `${process.env.NEXT_PUBLIC_APP_URL || process.env.NEXTAUTH_URL}/dashboard/settings/billing?success=true`,
+            cancel_url: `${process.env.NEXT_PUBLIC_APP_URL || process.env.NEXTAUTH_URL}/dashboard/settings/billing?canceled=true`,
             subscription_data: {
                 metadata: {
                     organizationId: org.id,
