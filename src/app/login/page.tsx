@@ -51,6 +51,32 @@ function LoginForm() {
         }
     }
 
+    const handleResend = async () => {
+        if (!email) {
+            setError("Please enter your email first.")
+            return
+        }
+        setIsLoading(true)
+        setError("")
+        try {
+            const res = await fetch("/api/register/resend", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email }),
+            })
+            const data = await res.json()
+            if (res.ok) {
+                setError("Verification email sent! Please check your inbox.")
+            } else {
+                setError(data.message || "Failed to resend email.")
+            }
+        } catch (err) {
+            setError("An unexpected error occurred.")
+        } finally {
+            setIsLoading(false)
+        }
+    }
+
     return (
         <div className="w-full max-w-md p-8 relative z-10">
             <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-10 rounded-3xl shadow-2xl">
@@ -98,7 +124,21 @@ function LoginForm() {
                         />
                     </div>
 
-                    {error && <p className="text-red-400 text-sm text-center">{error}</p>}
+                    {error && (
+                        <div className="flex flex-col gap-2">
+                            <p className="text-red-400 text-sm text-center">{error}</p>
+                            {error === "Please verify your email address before logging in." && (
+                                <button
+                                    type="button"
+                                    onClick={handleResend}
+                                    disabled={isLoading}
+                                    className="text-indigo-400 hover:text-indigo-300 text-xs font-bold transition-colors underline decoration-dotted underline-offset-4"
+                                >
+                                    Resend activation email
+                                </button>
+                            )}
+                        </div>
+                    )}
 
                     <button
                         type="submit"
