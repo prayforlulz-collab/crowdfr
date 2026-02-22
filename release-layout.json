@@ -1,0 +1,213 @@
+[
+  {
+    "id": "hero-1",
+    "type": "hero",
+    "data": {
+      "title": "Anthology 4",
+      "subtitle": "The Beatles",
+      "coverImage": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/e3/13/8b/e3138b34-5049-3e0b-89c1-ee6794ce5843/25UM1IM18824.rgb.jpg/1200x630bb.jpg",
+      "variant": "centered",
+      "releaseDate": "2025-11-21"
+    }
+  },
+  {
+    "id": "links-1",
+    "type": "links",
+    "data": {
+      "spotify": "",
+      "appleMusic": "https://music.apple.com/pt/album/anthology-4/1834473847",
+      "soundCloud": "",
+      "youtube": "",
+      "otherLinks": [],
+      "inheritFromArtist": true
+    }
+  },
+  {
+    "id": "tracklist-1",
+    "type": "tracklist",
+    "data": {
+      "tracks": [
+        {
+          "title": "I Saw Her Standing There (Take 2)",
+          "duration": "PT3M6S",
+          "appleMusicTrackId": "1834473848"
+        },
+        {
+          "title": "Money (That's What I Want) [RM7 Undubbed]",
+          "duration": "PT2M48S",
+          "appleMusicTrackId": "1834473849"
+        },
+        {
+          "title": "This Boy (Takes 12 And 13)",
+          "duration": "PT3M18S",
+          "appleMusicTrackId": "1834474030"
+        },
+        {
+          "title": "Tell Me Why (Takes 4 And 5)",
+          "duration": "PT3M7S",
+          "appleMusicTrackId": "1834474031"
+        },
+        {
+          "title": "If I Fell (Take 11)",
+          "duration": "PT2M38S",
+          "appleMusicTrackId": "1834474032"
+        },
+        {
+          "title": "Matchbox (Take 1)",
+          "duration": "PT2M9S",
+          "appleMusicTrackId": "1834474033"
+        },
+        {
+          "title": "Every Little Thing (Takes 6 And 7)",
+          "duration": "PT3M28S",
+          "appleMusicTrackId": "1834474034"
+        },
+        {
+          "title": "I Need You (Take 1)",
+          "duration": "PT2M36S",
+          "appleMusicTrackId": "1834474035"
+        },
+        {
+          "title": "I've Just Seen A Face (Take 3)",
+          "duration": "PT2M26S",
+          "appleMusicTrackId": "1834474036"
+        },
+        {
+          "title": "In My Life (Take 1)",
+          "duration": "PT2M40S",
+          "appleMusicTrackId": "1834474037"
+        },
+        {
+          "title": "Nowhere Man (First Version - Take 2)",
+          "duration": "PT2M24S",
+          "appleMusicTrackId": "1834474038"
+        },
+        {
+          "title": "Got To Get You Into My Life (Second Version - Unnumbered Mix)",
+          "duration": "PT2M35S",
+          "appleMusicTrackId": "1834474039"
+        },
+        {
+          "title": "Love You To (Take 7)",
+          "duration": "PT2M56S",
+          "appleMusicTrackId": "1834474041"
+        },
+        {
+          "title": "Strawberry Fields Forever (Take 26)",
+          "duration": "PT3M20S",
+          "appleMusicTrackId": "1834474042"
+        },
+        {
+          "title": "She's Leaving Home (Take 1 - Instrumental)",
+          "duration": "PT3M50S",
+          "appleMusicTrackId": "1834474043"
+        },
+        {
+          "title": "Baby, You're A Rich Man (Takes 11 And 12)",
+          "duration": "PT6M6S",
+          "appleMusicTrackId": "1834474045"
+        },
+        {
+          "title": "All You Need Is Love (Rehearsal For BBC Broadcast)",
+          "duration": "PT6M11S",
+          "appleMusicTrackId": "1834474046"
+        },
+        {
+          "title": "The Fool On The Hill (Take 5 - Instrumental)",
+          "duration": "PT4M42S",
+          "appleMusicTrackId": "1834474047"
+        },
+        {
+          "title": "I Am The Walrus (Take 19 - Strings, Brass, Clarinet Overdub)",
+          "duration": "PT4M56S",
+          "appleMusicTrackId": "1834474048"
+        },
+        {
+          "title": "Hey Bulldog (Take 4 - Instrumental)",
+          "duration": "PT3M14S",
+          "appleMusicTrackId": "1834474050"
+        },
+        {
+          "title": "Good Night (Take 10 With A Guitar Part From Take 5)",
+          "duration": "PT2M31S",
+          "appleMusicTrackId": "1834474052"
+        },
+        {
+          "title": "While My Guitar Gently Weeps (Third Version - Take 27)",
+          "duration": "PT3M18S",
+          "appleMusicTrackId": "1834474054"
+        },
+        {
+          "title": "(You're So Square) Baby I Don’t Care (Studio Jam)",
+          "duration": "PT43S",
+          "appleMusicTrackId": "1834474151"
+        },
+        {
+          "title": "Helter Skelter (Second Version - Take 17)",
+          "duration": "PT3M38S",
+          "appleMusicTrackId": "1834474161"
+        },
+        {
+          "title": "I Will (Take 29)",
+          "duration": "PT26S",
+          "appleMusicTrackId": "1834474165"
+        },
+        {
+          "title": "Can You Take Me Back? (Take 1)",
+          "duration": "PT2M22S",
+          "appleMusicTrackId": "1834474166"
+        },
+        {
+          "title": "Julia (Two Rehearsals)",
+          "duration": "PT4M26S",
+          "appleMusicTrackId": "1834474167"
+        },
+        {
+          "title": "Get Back (Take 8)",
+          "duration": "PT3M51S",
+          "appleMusicTrackId": "1834474169"
+        },
+        {
+          "title": "Octopus’s Garden (Rehearsal)",
+          "duration": "PT1M49S",
+          "appleMusicTrackId": "1834474172"
+        },
+        {
+          "title": "Don’t Let Me Down (First Rooftop Performance)",
+          "duration": "PT3M27S",
+          "appleMusicTrackId": "1834474176"
+        },
+        {
+          "title": "You Never Give Me Your Money (Take 36)",
+          "duration": "PT5M17S",
+          "appleMusicTrackId": "1834474177"
+        },
+        {
+          "title": "Here Comes The Sun (Take 9)",
+          "duration": "PT3M41S",
+          "appleMusicTrackId": "1834474179"
+        },
+        {
+          "title": "Something (Take 39 - Strings Only Instrumental)",
+          "duration": "PT2M35S",
+          "appleMusicTrackId": "1834474210"
+        },
+        {
+          "title": "Free As A Bird (2025 Mix)",
+          "duration": "PT4M27S",
+          "appleMusicTrackId": "1834474212"
+        },
+        {
+          "title": "Real Love (2025 Mix)",
+          "duration": "PT3M34S",
+          "appleMusicTrackId": "1834474213"
+        },
+        {
+          "title": "Now And Then",
+          "duration": "PT4M9S",
+          "appleMusicTrackId": "1834474214"
+        }
+      ]
+    }
+  }
+]

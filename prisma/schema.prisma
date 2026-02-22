@@ -1,0 +1,302 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id              String       @id @default(cuid())
+  name            String?
+  email           String?      @unique
+  emailVerified   DateTime?
+  image           String?
+  password        String?
+  role            String       @default("USER") // "ADMIN" or "USER"
+  accounts        Account[]
+  createdArtists  Artist[]
+  memberships     Membership[]
+  createdReleases Release[]
+  sessions        Session[]
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+  isSuspended     Boolean      @default(false)
+  isDeleted       Boolean      @default(false)
+  deletedAt       DateTime?
+  links           String?      @default("[]")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Organization {
+  id                   String           @id @default(cuid())
+  name                 String
+  slug                 String           @unique
+  logoUrl              String?
+  tier                 String           @default("FREE") // "FREE", "PLAN_1", "PLAN_2"
+  stripeSubscriptionId String?          @unique
+  stripeCustomerId     String?          @unique
+  subscriptionStatus   String? // "active", "canceled", "past_due", "trialing", "incomplete"
+  currentPeriodEnd     DateTime?
+  createdAt            DateTime         @default(now())
+  updatedAt            DateTime         @updatedAt
+  isDeleted            Boolean          @default(false)
+  deletedAt            DateTime?
+  analyticsEvents      AnalyticsEvent[]
+  artists              Artist[]
+  campaigns            Campaign[]
+  clickEvents          ClickEvent[]
+  fans                 Fan[]
+  memberships          Membership[]
+  pageViews            PageView[]
+  tags                 Tag[]
+}
+
+model Membership {
+  id             String       @id @default(cuid())
+  role           String       @default("VIEWER")
+  userId         String
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, organizationId])
+}
+
+model Artist {
+  id             String       @id @default(cuid())
+  name           String
+  slug           String       @unique
+  bio            String?
+  imageUrl       String?
+  organizationId String
+  layout         String?      @default("[]")
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  createdById    String?
+  createdBy      User?        @relation(fields: [createdById], references: [id])
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  releases       Release[]
+  isSuspended    Boolean      @default(false)
+  isDeleted      Boolean      @default(false)
+  deletedAt      DateTime?
+}
+
+model Release {
+  id              String            @id @default(cuid())
+  title           String
+  slug            String            @unique
+  subtitle        String?
+  releaseDate     DateTime?
+  coverImage      String?
+  description     String?
+  artistId        String
+  layout          String?           @default("[]")
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  createdById     String?
+  analyticsEvents AnalyticsEvent[]
+  clickEvents     ClickEvent[]
+  fans            FanSubscription[]
+  pageViews       PageView[]
+  createdBy       User?             @relation(fields: [createdById], references: [id])
+  artist          Artist            @relation(fields: [artistId], references: [id], onDelete: Cascade)
+  isSuspended     Boolean           @default(false)
+  isDeleted       Boolean           @default(false)
+  deletedAt       DateTime?
+}
+
+model Fan {
+  id              String            @id @default(cuid())
+  email           String
+  name            String?
+  country         String?
+  organizationId  String
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  phone           String?
+  analyticsEvents AnalyticsEvent[]
+  organization    Organization      @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  subscriptions   FanSubscription[]
+  tags            Tag[]             @relation("FanToTag")
+
+  @@unique([email, organizationId])
+}
+
+model FanSubscription {
+  id        String   @id @default(cuid())
+  fanId     String
+  releaseId String
+  status    String   @default("PENDING")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  release   Release  @relation(fields: [releaseId], references: [id], onDelete: Cascade)
+  fan       Fan      @relation(fields: [fanId], references: [id], onDelete: Cascade)
+
+  @@unique([fanId, releaseId])
+}
+
+model Tag {
+  id             String       @id @default(cuid())
+  name           String
+  organizationId String
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  fans           Fan[]        @relation("FanToTag")
+
+  @@unique([name, organizationId])
+}
+
+model ClickEvent {
+  id             String       @id @default(cuid())
+  releaseId      String?
+  linkUrl        String
+  linkType       String
+  linkLabel      String?
+  ipAddress      String?
+  userAgent      String?
+  country        String?
+  referrer       String?
+  organizationId String
+  createdAt      DateTime     @default(now())
+  release        Release?     @relation(fields: [releaseId], references: [id], onDelete: Cascade)
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@index([releaseId])
+  @@index([organizationId])
+  @@index([createdAt])
+}
+
+model PageView {
+  id             String       @id @default(cuid())
+  releaseId      String?
+  path           String
+  ipAddress      String?
+  userAgent      String?
+  country        String?
+  referrer       String?
+  sessionId      String?
+  timeOnPage     Int?
+  organizationId String
+  createdAt      DateTime     @default(now())
+  release        Release?     @relation(fields: [releaseId], references: [id], onDelete: Cascade)
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@index([releaseId])
+  @@index([organizationId])
+  @@index([sessionId])
+  @@index([createdAt])
+}
+
+model AnalyticsEvent {
+  id             String       @id @default(cuid())
+  eventType      String
+  eventData      String?
+  releaseId      String?
+  fanId          String?
+  organizationId String
+  createdAt      DateTime     @default(now())
+  fan            Fan?         @relation(fields: [fanId], references: [id], onDelete: Cascade)
+  release        Release?     @relation(fields: [releaseId], references: [id], onDelete: Cascade)
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@index([eventType])
+  @@index([releaseId])
+  @@index([organizationId])
+  @@index([createdAt])
+}
+
+model Campaign {
+  id             String       @id @default(cuid())
+  subject        String
+  content        String
+  status         String       @default("DRAFT")
+  type           String?
+  category       String?
+  scheduledAt    DateTime?
+  sentAt         DateTime?
+  sendGridId     String?
+  processed      Int          @default(0)
+  delivered      Int          @default(0)
+  opens          Int          @default(0)
+  uniqueOpens    Int          @default(0)
+  clicks         Int          @default(0)
+  uniqueClicks   Int          @default(0)
+  bounces        Int          @default(0)
+  blocks         Int          @default(0)
+  spamReports    Int          @default(0)
+  unsubscribes   Int          @default(0)
+  organizationId String
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId])
+  @@index([status])
+}
+
+model AuditLog {
+  id          String   @id @default(cuid())
+  action      String
+  entityType  String
+  entityId    String
+  entityLabel String?
+  performedBy String
+  adminEmail  String?
+  reason      String?
+  metadata    String?
+  createdAt   DateTime @default(now())
+
+  @@index([entityType])
+  @@index([entityId])
+  @@index([performedBy])
+  @@index([createdAt])
+}
+
+model AdminNote {
+  id          String   @id @default(cuid())
+  entityType  String
+  entityId    String
+  content     String
+  createdBy   String
+  adminEmail  String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([entityType, entityId])
+}

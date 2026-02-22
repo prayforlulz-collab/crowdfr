@@ -1,0 +1,39 @@
+[
+  {
+    "id": "1",
+    "type": "hero",
+    "data": {
+      "title": "The Beatles",
+      "subtitle": "An iconic British rock band formed in Liverpool in 1960, consisting of John Lennon, Paul McCartney, George Harrison, and Ringo Starr. They are widely regarded as one of the most influential bands in music history.",
+      "variant": "full-screen",
+      "coverImage": "https://www.antenalivre.pt/pic/23530_the_beatles_1200x750_61a8acc011909.jpg"
+    }
+  },
+  {
+    "id": "2",
+    "type": "links",
+    "data": {
+      "links": [
+        {
+          "id": "spotify-1771354919591",
+          "platform": "spotify",
+          "url": "https://open.spotify.com/intl-pt/artist/3WrFJ7ztbogyGnTHbHJFl2",
+          "behavior": "redirect"
+        },
+        {
+          "id": "appleMusic-1771354981548",
+          "platform": "appleMusic",
+          "url": "https://music.apple.com/us/playlist/the-beatles-essentials/pl.59619449a71f44dc99c4dabd6c442d41",
+          "behavior": "redirect"
+        }
+      ],
+      "showLogos": true,
+      "useButton": false
+    }
+  },
+  {
+    "id": "744zo3uxs",
+    "type": "streaming_links",
+    "data": {}
+  }
+]
