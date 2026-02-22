@@ -11,20 +11,20 @@ export default function Home() {
       </div>
 
       {/* Navigation */}
-      <nav className="relative z-50 flex items-center justify-between px-8 py-6 max-w-7xl mx-auto">
-        <div className="text-2xl font-black bg-gradient-to-r from-indigo-400 to-teal-400 bg-clip-text text-transparent tracking-tighter">
+      <nav className="relative z-50 flex items-center justify-between px-4 md:px-8 py-6 max-w-7xl mx-auto">
+        <div className="text-xl md:text-2xl font-black bg-gradient-to-r from-indigo-400 to-teal-400 bg-clip-text text-transparent tracking-tighter shrink-0">
           Crowdfr
         </div>
-        <div className="flex items-center gap-8">
-          <Link href="/pricing" className="text-sm font-semibold text-zinc-400 hover:text-white transition-colors">
+        <div className="flex items-center gap-3 md:gap-8">
+          <Link href="/pricing" className="hidden sm:block text-sm font-semibold text-zinc-400 hover:text-white transition-colors">
             Pricing
           </Link>
-          <Link href="/login" className="text-sm font-semibold text-zinc-400 hover:text-white transition-colors">
+          <Link href="/login" className="hidden sm:block text-sm font-semibold text-zinc-400 hover:text-white transition-colors">
             Log In
           </Link>
           <Link
             href="/register"
-            className="px-6 py-2.5 bg-white text-black rounded-full text-sm font-bold hover:bg-zinc-200 transition-all hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(255,255,255,0.1)]"
+            className="px-5 md:px-6 py-2.5 bg-white text-black rounded-full text-xs md:text-sm font-bold hover:bg-zinc-200 transition-all hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(255,255,255,0.1)] whitespace-nowrap"
           >
             Get Started
           </Link>
