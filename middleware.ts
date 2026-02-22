@@ -21,20 +21,25 @@ export default async function middleware(req: NextRequest) {
     // Get the subdomain
     let currentHost
     if (process.env.NODE_ENV === "production") {
-        // In production, we remove the base domain to get the subdomain
-        // For Vercel or similar, you might need to adjust based on VERCEL_URL
-        // e.g. artist.crowdfr.com -> artist
         const baseDomain = "crowdfr.com"
+        const vercelDomain = "vercel.app"
+
         if (hostname.includes(baseDomain)) {
             currentHost = hostname.replace(`.${baseDomain}`, "")
+        } else if (hostname.includes(vercelDomain)) {
+            // Handle Vercel preview/branch URLs or main .vercel.app
+            const parts = hostname.split(".")
+            // If it's just [name].vercel.app, currentHost is [name]
+            // If it's [sub].[name].vercel.app, we want [sub]
+            if (parts.length > 2) {
+                currentHost = parts[0]
+            } else {
+                currentHost = parts[0]
+            }
         } else {
-            // Handle custom domains if we supported them, or localhost in prod simulation
             currentHost = hostname.split('.')[0]
         }
     } else {
-        // In development (localhost:3000), subdomain is the first part
-        // e.g. artist.localhost:3000 -> artist
-        // localhost:3000 -> localhost:3000 (no subdomain logic)
         if (hostname.includes("localhost")) {
             const parts = hostname.split(".")
             if (parts.length > 1 && parts[0] !== "localhost") {
@@ -44,7 +49,17 @@ export default async function middleware(req: NextRequest) {
     }
 
     // Handle main domain, www, app, and dashboard - do not rewrite
-    const excludedSubdomains = ["www", "app", "dashboard", "pricing", "login", "register", "api", "localhost:3000"]
+    const excludedSubdomains = [
+        "www",
+        "app",
+        "dashboard",
+        "pricing",
+        "login",
+        "register",
+        "api",
+        "localhost:3000",
+        "crowdfr" // Exclude the main project name itself
+    ]
 
     if (!currentHost || excludedSubdomains.includes(currentHost) || currentHost === "crowdfr.com") {
         return NextResponse.next()
