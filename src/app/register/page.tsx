@@ -89,7 +89,7 @@ export default function RegisterPage() {
                                 type="text"
                                 required
                                 className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 transition-all"
-                                placeholder="Mario Rossi"
+                                placeholder="Your Name"
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
                             />
@@ -101,7 +101,7 @@ export default function RegisterPage() {
                                 type="email"
                                 required
                                 className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 transition-all"
-                                placeholder="mario@crowdfr.com"
+                                placeholder="artist@example.com"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                             />

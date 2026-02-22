@@ -14,7 +14,7 @@ export default function PricingPlans({ onSelect, currentTier, isLoading }: Prici
 
     return (
         <div className="w-full max-w-5xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="flex flex-wrap justify-center gap-8">
                 {(Object.values(PRICING_TIERS) as any[]).map((tier) => {
                     const isCurrent = currentTier === tier.id
                     const isRecommended = tier.recommended
