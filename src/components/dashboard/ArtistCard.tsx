@@ -49,62 +49,72 @@ export default function ArtistCard({ artist }: ArtistCardProps) {
     }
 
     return (
-        <div className="bg-zinc-900 border border-zinc-800 rounded-3xl overflow-hidden hover:border-purple-500/50 transition-all group relative">
-            <div className="aspect-square bg-zinc-800 relative group-hover:opacity-90 transition-opacity">
+        <div className="bg-[#121215] border border-white/5 rounded-[2rem] overflow-hidden hover:border-indigo-500/30 transition-all duration-500 group relative shadow-2xl">
+            <div className="aspect-square bg-zinc-900 relative overflow-hidden">
                 {artist.imageUrl ? (
-                    <img src={artist.imageUrl} alt={artist.name} className="w-full h-full object-cover" />
+                    <img src={artist.imageUrl} alt={artist.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
                 ) : (
-                    <div className="w-full h-full flex items-center justify-center text-zinc-700">
-                        <span className="text-4xl font-black">ARTIST</span>
+                    <div className="w-full h-full flex items-center justify-center text-zinc-800 bg-gradient-to-br from-[#1a1a1e] to-[#0c0c0e]">
+                        <span className="text-4xl font-black opacity-20 tracking-tighter">ARTIST</span>
                     </div>
                 )}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-6">
-                    <div>
-                        <h3 className="text-xl font-bold text-white">{artist.name}</h3>
-                        <p className="text-zinc-400 text-sm font-medium line-clamp-2">{artist.bio || 'Artist Profile'}</p>
+
+                {/* Overlay Gradient */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent flex items-end p-8" />
+
+                {/* Content Overlay */}
+                <div className="absolute bottom-0 left-0 right-0 p-8 z-10 translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
+                    <div className="flex items-center gap-2 mb-2">
+                        <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                        <span className="text-[10px] font-black text-emerald-500 uppercase tracking-widest">Live Profile</span>
                     </div>
+                    <h3 className="text-2xl font-black text-white mb-2 leading-none">{artist.name}</h3>
+                    <p className="text-zinc-400 text-xs font-medium line-clamp-1 opacity-60 group-hover:opacity-100 transition-opacity">
+                        {artist.bio || 'Independent Artist • Verified Profile'}
+                    </p>
+                </div>
+
+                {/* Top Actions (Floating) */}
+                <div className="absolute top-4 right-4 flex flex-col gap-2 translate-x-4 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-500 delay-75">
+                    <button
+                        onClick={handleShare}
+                        className="w-10 h-10 rounded-xl bg-black/40 backdrop-blur-md border border-white/10 flex items-center justify-center text-white hover:bg-indigo-600 transition-all"
+                        title="Copy Link"
+                    >
+                        <Share2 className="w-4 h-4" />
+                    </button>
+                    <button
+                        onClick={handleDelete}
+                        disabled={isDeleting}
+                        className="w-10 h-10 rounded-xl bg-black/40 backdrop-blur-md border border-white/10 flex items-center justify-center text-red-400 hover:bg-red-600 hover:text-white transition-all disabled:opacity-50"
+                        title="Delete"
+                    >
+                        <Trash2 className="w-4 h-4" />
+                    </button>
                 </div>
             </div>
 
-            <div className="p-4 grid grid-cols-4 gap-2">
+            <div className="p-4 grid grid-cols-2 gap-3 bg-black/40">
                 <Link
                     href={getArtistUrl(artist.slug)}
                     target="_blank"
-                    className="flex flex-col items-center justify-center p-2 rounded-xl hover:bg-white/5 text-zinc-400 hover:text-white transition-colors"
-                    title="View Page"
+                    className="flex items-center justify-center gap-2 py-3 rounded-xl bg-white text-black font-black text-[11px] uppercase tracking-wider hover:bg-zinc-200 transition-all active:scale-[0.97]"
                 >
-                    <ExternalLink className="w-5 h-5 mb-1" />
-                    <span className="text-[10px] font-bold uppercase">View</span>
+                    <ExternalLink className="w-3.5 h-3.5" />
+                    View Page
                 </Link>
 
                 <Link
                     href={`/dashboard/artists/${artist.id}/edit`}
-                    className="flex flex-col items-center justify-center p-2 rounded-xl hover:bg-white/5 text-zinc-400 hover:text-white transition-colors"
-                    title="Edit Page"
+                    className="flex items-center justify-center gap-2 py-3 rounded-xl bg-white/5 border border-white/10 text-white font-black text-[11px] uppercase tracking-wider hover:bg-white/10 transition-all active:scale-[0.97]"
                 >
-                    <Edit className="w-5 h-5 mb-1" />
-                    <span className="text-[10px] font-bold uppercase">Edit</span>
+                    <Edit className="w-3.5 h-3.5" />
+                    Edit Profile
                 </Link>
-
-                <button
-                    onClick={handleShare}
-                    className="flex flex-col items-center justify-center p-2 rounded-xl hover:bg-white/5 text-zinc-400 hover:text-white transition-colors"
-                    title="Share Link"
-                >
-                    <Share2 className="w-5 h-5 mb-1" />
-                    <span className="text-[10px] font-bold uppercase">Share</span>
-                </button>
-
-                <button
-                    onClick={handleDelete}
-                    disabled={isDeleting}
-                    className="flex flex-col items-center justify-center p-2 rounded-xl hover:bg-red-500/10 text-zinc-400 hover:text-red-500 transition-colors disabled:opacity-50"
-                    title="Remove"
-                >
-                    <Trash2 className="w-5 h-5 mb-1" />
-                    <span className="text-[10px] font-bold uppercase">Remove</span>
-                </button>
             </div>
+
+            {/* Hover Glow Edge */}
+            <div className="absolute inset-0 border border-indigo-500/0 group-hover:border-indigo-500/20 rounded-[2rem] transition-colors pointer-events-none" />
         </div>
     )
 }

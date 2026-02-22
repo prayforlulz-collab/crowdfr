@@ -101,59 +101,73 @@ export default async function DashboardPage() {
     })
 
     return (
-        <div className="p-8 max-w-7xl mx-auto font-sans">
-            <header className="flex justify-between items-center mb-12">
+        <div className="p-10 max-w-7xl mx-auto font-sans relative">
+            {/* Background Aura */}
+            <div className="fixed top-0 right-0 w-[500px] h-[500px] bg-indigo-600/5 blur-[120px] rounded-full pointer-events-none -z-10" />
+            <div className="fixed bottom-0 left-0 w-[500px] h-[500px] bg-teal-600/5 blur-[120px] rounded-full pointer-events-none -z-10" />
+
+            <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-20">
                 <div>
-                    <h1 className="text-4xl font-black bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent flex items-center gap-4">
-                        Dashboard
+                    <div className="flex items-center gap-3 mb-2">
+                        <div className="px-2 py-1 rounded bg-indigo-500/10 border border-indigo-500/20 text-[10px] font-black text-indigo-400 uppercase tracking-widest">
+                            Creator Console
+                        </div>
                         {isGlobalAdmin && (
-                            <span className="bg-red-500/20 text-red-500 text-xs px-2 py-1 rounded border border-red-500/50">Global Admin</span>
+                            <span className="bg-red-500/10 text-red-500 text-[10px] px-2 py-1 rounded border border-red-500/20 font-black uppercase tracking-widest">System Admin</span>
                         )}
+                    </div>
+                    <h1 className="text-5xl font-black bg-gradient-to-r from-white to-white/60 bg-clip-text text-transparent tracking-tighter">
+                        Good morning, {session.user.name?.split(' ')[0] || 'Artist'}
                     </h1>
-                    <p className="text-zinc-500 mt-1">Manage your releases and artist profiles.</p>
+                    <p className="text-zinc-500 mt-2 font-medium">Manage your digital presence and fan connections.</p>
                 </div>
-                <div className="flex gap-4">
+                <div className="flex items-center gap-3">
                     <Link
                         href="/dashboard/settings/billing"
-                        className="bg-zinc-800 hover:bg-zinc-700 text-white font-bold py-3 px-6 rounded-2xl transition-all flex items-center gap-2"
+                        className="bg-white/5 hover:bg-white/10 border border-white/5 text-white font-bold py-3.5 px-6 rounded-2xl transition-all flex items-center gap-2 group"
                     >
-                        <span>💳</span>
+                        <span className="group-hover:scale-110 transition-transform">💳</span>
                         <span className="hidden sm:inline">Billing</span>
                     </Link>
+                    <div className="h-10 w-px bg-white/5 mx-2 hidden md:block" />
                     <NewArtistButton />
                     <NewReleaseButton artistCount={artists.length} />
                 </div>
             </header>
 
-            <section className="mb-16">
-                <div className="flex items-center gap-4 mb-8">
-                    <h2 className="text-2xl font-black uppercase tracking-tight">Artists</h2>
-                    <span className="bg-zinc-800 text-zinc-400 px-3 py-1 rounded-full text-xs font-bold">{artists.length}</span>
+            <section className="mb-20">
+                <div className="flex items-center gap-4 mb-10">
+                    <div className="w-1.5 h-6 bg-indigo-500 rounded-full" />
+                    <h2 className="text-sm font-black uppercase tracking-[0.2em] text-zinc-500">Artist Profiles</h2>
+                    <span className="text-zinc-700 font-bold font-mono text-xs">{artists.length.toString().padStart(2, '0')}</span>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {artists.map((artist) => (
                         <ArtistCard key={artist.id} artist={artist} />
                     ))}
                     {artists.length === 0 && (
-                        <div className="col-span-full py-20 text-center border-2 border-dashed border-zinc-800 rounded-3xl">
-                            <p className="text-zinc-500 font-medium">No artists found.</p>
+                        <div className="col-span-full py-24 text-center border-2 border-dashed border-white/5 bg-white/[0.02] rounded-[3rem]">
+                            <div className="w-16 h-16 bg-white/5 rounded-2xl flex items-center justify-center mx-auto mb-6 text-2xl opacity-20">🎨</div>
+                            <p className="text-zinc-500 font-bold uppercase tracking-wider text-xs">No active artist profiles yet.</p>
                         </div>
                     )}
                 </div>
             </section>
 
-            <section>
-                <div className="flex items-center gap-4 mb-8">
-                    <h2 className="text-2xl font-black uppercase tracking-tight">Releases</h2>
-                    <span className="bg-zinc-800 text-zinc-400 px-3 py-1 rounded-full text-xs font-bold">{releases.length}</span>
+            <section className="pb-20">
+                <div className="flex items-center gap-4 mb-10">
+                    <div className="w-1.5 h-6 bg-teal-500 rounded-full" />
+                    <h2 className="text-sm font-black uppercase tracking-[0.2em] text-zinc-500">Active Drops</h2>
+                    <span className="text-zinc-700 font-bold font-mono text-xs">{releases.length.toString().padStart(2, '0')}</span>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {releases.map((release) => (
                         <ReleaseCard key={release.id} release={release} />
                     ))}
                     {releases.length === 0 && (
-                        <div className="col-span-full py-20 text-center border-2 border-dashed border-zinc-800 rounded-3xl">
-                            <p className="text-zinc-500 font-medium">No releases found. Create your first one to get started!</p>
+                        <div className="col-span-full py-24 text-center border-2 border-dashed border-white/5 bg-white/[0.02] rounded-[3rem]">
+                            <div className="w-16 h-16 bg-white/5 rounded-2xl flex items-center justify-center mx-auto mb-6 text-2xl opacity-20">💿</div>
+                            <p className="text-zinc-500 font-bold uppercase tracking-wider text-xs">No releases created. Launch your first one!</p>
                         </div>
                     )}
                 </div>
