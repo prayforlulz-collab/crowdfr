@@ -50,6 +50,7 @@ export default function ArtistEditor({ artistId, organizationId, initialData }: 
     const [selectedSectionId, setSelectedSectionId] = useState<string | null>(null)
     const [isSaving, setIsSaving] = useState(false)
     const [message, setMessage] = useState("")
+    const [showMobilePreview, setShowMobilePreview] = useState(false)
 
     const selectedSection = sections.find(s => s.id === selectedSectionId)
 
@@ -127,20 +128,28 @@ export default function ArtistEditor({ artistId, organizationId, initialData }: 
     return (
         <div className="flex flex-col md:flex-row h-screen bg-[#0a0a0c] text-white overflow-hidden font-sans">
             {/* Sidebar - Reusing ReleaseEditor styling */}
-            <div className="w-full md:w-96 bg-zinc-900 border-b md:border-b-0 md:border-r border-zinc-800 flex flex-col h-full overflow-hidden">
+            <div className={`w-full md:w-96 bg-zinc-900 border-b md:border-b-0 md:border-r border-zinc-800 flex flex-col h-full overflow-hidden ${showMobilePreview ? 'hidden md:flex' : 'flex'}`}>
                 <div className="p-6 border-b border-zinc-800 flex items-center justify-between">
                     <div>
                         <h2 className="text-xl font-black bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent uppercase tracking-tighter">
                             Artist Builder
                         </h2>
                     </div>
-                    <button
-                        onClick={handleSave}
-                        disabled={isSaving}
-                        className="bg-white text-black px-4 py-1.5 rounded-full text-xs font-black uppercase hover:bg-zinc-200 transition-all disabled:opacity-50"
-                    >
-                        {isSaving ? "Saving..." : "Save"}
-                    </button>
+                    <div className="flex items-center gap-2">
+                        <button
+                            onClick={() => setShowMobilePreview(true)}
+                            className="md:hidden bg-zinc-800 text-white px-4 py-1.5 rounded-full text-xs font-black uppercase hover:bg-zinc-700 transition-all border border-zinc-700"
+                        >
+                            Preview
+                        </button>
+                        <button
+                            onClick={handleSave}
+                            disabled={isSaving}
+                            className="bg-white text-black px-4 py-1.5 rounded-full text-xs font-black uppercase hover:bg-zinc-200 transition-all disabled:opacity-50"
+                        >
+                            {isSaving ? "Saving..." : "Save"}
+                        </button>
+                    </div>
                 </div>
 
                 <div className="flex-1 overflow-y-auto custom-scrollbar">
@@ -882,9 +891,16 @@ export default function ArtistEditor({ artistId, organizationId, initialData }: 
             </div>
 
             {/* Preview Panel */}
-            <div className="flex-1 overflow-y-auto bg-black relative custom-scrollbar">
-                <div className="sticky top-0 left-0 right-0 z-50 p-4 flex justify-center pointer-events-none">
-                    <div className="bg-zinc-900/80 backdrop-blur-md border border-zinc-800 px-6 py-2 rounded-full flex items-center gap-3 shadow-2xl">
+            <div className={`flex-1 overflow-y-auto bg-black relative custom-scrollbar ${showMobilePreview ? 'block' : 'hidden md:block'}`}>
+                <div className="sticky top-0 left-0 right-0 z-50 p-4 flex justify-between pointer-events-none">
+                    <button
+                        onClick={() => setShowMobilePreview(false)}
+                        className="md:hidden pointer-events-auto bg-zinc-900/80 backdrop-blur-md border border-zinc-800 px-4 py-2 rounded-full flex items-center gap-2 text-xs font-black uppercase tracking-widest text-zinc-400 hover:text-white transition-colors shadow-2xl"
+                    >
+                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M15 19l-7-7 7-7" /></svg>
+                        Editor
+                    </button>
+                    <div className="bg-zinc-900/80 backdrop-blur-md border border-zinc-800 px-6 py-2 rounded-full flex items-center gap-3 shadow-2xl pointer-events-auto ml-auto">
                         <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.5)]" />
                         <span className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Live Preview</span>
                     </div>
