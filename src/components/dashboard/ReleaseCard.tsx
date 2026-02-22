@@ -6,6 +6,8 @@ import { ExternalLink, Edit, Share2, Trash2 } from "lucide-react"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 
+import { getReleaseUrl } from "@/lib/utils/urls"
+
 interface ReleaseCardProps {
     release: {
         id: string
@@ -14,6 +16,7 @@ interface ReleaseCardProps {
         coverImage: string | null
         artist: {
             name: string
+            slug: string
         }
     }
 }
@@ -24,7 +27,7 @@ export default function ReleaseCard({ release }: ReleaseCardProps) {
 
     const handleShare = (e: React.MouseEvent) => {
         e.preventDefault()
-        const url = `${window.location.origin}/r/${release.slug}`
+        const url = getReleaseUrl(release.artist.slug, release.slug)
         navigator.clipboard.writeText(url)
         alert("Release URL copied to clipboard!")
     }
@@ -68,7 +71,7 @@ export default function ReleaseCard({ release }: ReleaseCardProps) {
 
             <div className="p-4 grid grid-cols-4 gap-2">
                 <Link
-                    href={`/r/${release.slug}`}
+                    href={getReleaseUrl(release.artist.slug, release.slug)}
                     target="_blank"
                     className="flex flex-col items-center justify-center p-2 rounded-xl hover:bg-white/5 text-zinc-400 hover:text-white transition-colors"
                     title="View Page"

@@ -159,17 +159,17 @@ export default function OnboardingPage() {
                             <div>
                                 <label className="block text-gray-300 text-xs font-semibold mb-2 uppercase tracking-wider">Workspace URL</label>
                                 <div className="flex items-center">
-                                    <span className="bg-white/5 border border-r-0 border-white/10 rounded-l-xl px-4 py-3 text-gray-500 text-sm whitespace-nowrap">
-                                        crowdfr.com/
-                                    </span>
                                     <input
                                         type="text"
                                         required
-                                        className="w-full bg-white/5 border border-white/10 rounded-r-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all font-medium"
+                                        className="w-full bg-white/5 border border-r-0 border-white/10 rounded-l-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all font-medium text-right"
                                         placeholder="slug"
                                         value={orgSlug}
                                         onChange={(e) => setOrgSlug(e.target.value)}
                                     />
+                                    <span className="bg-white/5 border border-white/10 rounded-r-xl px-4 py-3 text-gray-500 text-sm whitespace-nowrap">
+                                        .crowdfr.com
+                                    </span>
                                 </div>
                             </div>
 

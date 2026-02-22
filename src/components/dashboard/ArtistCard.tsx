@@ -6,6 +6,8 @@ import { ExternalLink, Edit, Share2, Trash2 } from "lucide-react"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 
+import { getArtistUrl } from "@/lib/utils/urls"
+
 interface ArtistCardProps {
     artist: {
         id: string
@@ -22,7 +24,7 @@ export default function ArtistCard({ artist }: ArtistCardProps) {
 
     const handleShare = (e: React.MouseEvent) => {
         e.preventDefault()
-        const url = `${window.location.origin}/a/${artist.slug}`
+        const url = getArtistUrl(artist.slug)
         navigator.clipboard.writeText(url)
         alert("Artist URL copied to clipboard!")
     }
@@ -66,7 +68,7 @@ export default function ArtistCard({ artist }: ArtistCardProps) {
 
             <div className="p-4 grid grid-cols-4 gap-2">
                 <Link
-                    href={`/a/${artist.slug}`}
+                    href={getArtistUrl(artist.slug)}
                     target="_blank"
                     className="flex flex-col items-center justify-center p-2 rounded-xl hover:bg-white/5 text-zinc-400 hover:text-white transition-colors"
                     title="View Page"

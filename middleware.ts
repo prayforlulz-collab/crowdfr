@@ -48,7 +48,7 @@ export default async function middleware(req: NextRequest) {
         }
     }
 
-    // Handle main domain, www, app, and dashboard - do not rewrite
+    const baseDomain = "crowdfr.com"
     const excludedSubdomains = [
         "www",
         "app",
@@ -58,10 +58,26 @@ export default async function middleware(req: NextRequest) {
         "register",
         "api",
         "localhost:3000",
-        "crowdfr" // Exclude the main project name itself
+        "crowdfr"
     ]
 
+    // If we are on the main domain, redirect internal routes to subdomains
     if (!currentHost || excludedSubdomains.includes(currentHost) || currentHost === "crowdfr.com") {
+        const path = url.pathname
+
+        // Redirect /a/[slug] -> [slug].crowdfr.com
+        if (path.startsWith("/a/")) {
+            const slug = path.split("/")[2]
+            if (slug) {
+                return NextResponse.redirect(new URL(`https://${slug}.${baseDomain}`, req.url))
+            }
+        }
+
+        // Redirect /r/[slug] -> [slug_artist].crowdfr.com/r/[slug]
+        // Note: This requires knowing the artist slug, which we don't have without a DB call.
+        // For now, we'll keep /r/ on the main domain or allow it.
+        // Release slugs are unique so they work anywhere.
+
         return NextResponse.next()
     }
 
@@ -69,15 +85,13 @@ export default async function middleware(req: NextRequest) {
     if (currentHost) {
         const newUrl = req.nextUrl.clone()
 
-        // Rewrite root path "/" -> show artist page "/a/[subdomain]"
+        // If visiting subdomain root -> show artist page "/a/[subdomain]"
         if (url.pathname === "/") {
             newUrl.pathname = `/a/${currentHost}`
             return NextResponse.rewrite(newUrl)
         }
 
-        // Allow other paths (like /r/albumname) to pass through naturally.
-        // The browser url remains subdomain.domain.com/r/albumname
-        // Next.js router handles /r/albumname route.
+        // If visiting subdomain /r/[slug] -> already handled naturally by Next.js if /r/ exists
         return NextResponse.next()
     }
 
