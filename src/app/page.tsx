@@ -16,6 +16,9 @@ export default function Home() {
           Crowdfr
         </div>
         <div className="flex items-center gap-3 md:gap-8">
+          <Link href="/blog" className="text-xs md:text-sm font-semibold text-zinc-400 hover:text-white transition-colors">
+            Blog
+          </Link>
           <Link href="/pricing" className="text-xs md:text-sm font-semibold text-zinc-400 hover:text-white transition-colors">
             Pricing
           </Link>

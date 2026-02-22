@@ -26,6 +26,7 @@ export default async function AdminLayout({
         { href: "/admin/fans", label: "Fans", icon: Heart },
         { href: "/admin/organizations", label: "Organizations", icon: Building2 },
         { href: "/admin/content", label: "Content", icon: Music },
+        { href: "/admin/posts", label: "Blog Posts", icon: ScrollText },
         { href: "/admin/audit-log", label: "Audit Log", icon: ScrollText },
     ]
 

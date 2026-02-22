@@ -53,6 +53,7 @@ model User {
   isDeleted       Boolean      @default(false)
   deletedAt       DateTime?
   links           String?      @default("[]")
+  posts           Post[]
 }
 
 model VerificationToken {
@@ -134,6 +135,7 @@ model Release {
   clickEvents     ClickEvent[]
   fans            FanSubscription[]
   pageViews       PageView[]
+  preSaves        PreSave[]
   createdBy       User?             @relation(fields: [createdById], references: [id])
   artist          Artist            @relation(fields: [artistId], references: [id], onDelete: Cascade)
   isSuspended     Boolean           @default(false)
@@ -154,6 +156,8 @@ model Fan {
   organization    Organization      @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   subscriptions   FanSubscription[]
   tags            Tag[]             @relation("FanToTag")
+  connections     FanConnection[]
+  preSaves        PreSave[]
 
   @@unique([email, organizationId])
 }
@@ -169,6 +173,42 @@ model FanSubscription {
   fan       Fan      @relation(fields: [fanId], references: [id], onDelete: Cascade)
 
   @@unique([fanId, releaseId])
+}
+
+model FanConnection {
+  id           String   @id @default(cuid())
+  fanId        String
+  platform     String   // "spotify", "apple-music"
+  providerId   String?  // The platform-specific user ID
+  accessToken  String
+  refreshToken String?
+  expiresAt    DateTime?
+  tokenType    String?
+  scope        String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  fan          Fan      @relation(fields: [fanId], references: [id], onDelete: Cascade)
+
+  @@unique([fanId, platform])
+  @@index([fanId])
+}
+
+model PreSave {
+  id           String   @id @default(cuid())
+  fanId        String
+  releaseId    String
+  platform     String   // "spotify", "apple-music"
+  status       String   @default("PENDING") // PENDING, COMPLETED, FAILED
+  errorMessage String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  fan          Fan      @relation(fields: [fanId], references: [id], onDelete: Cascade)
+  release      Release  @relation(fields: [releaseId], references: [id], onDelete: Cascade)
+
+  @@unique([fanId, releaseId, platform])
+  @@index([fanId])
+  @@index([releaseId])
+  @@index([status])
 }
 
 model Tag {
@@ -300,4 +340,21 @@ model AdminNote {
   updatedAt   DateTime @updatedAt
 
   @@index([entityType, entityId])
+}
+
+model Post {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  content     String
+  excerpt     String?
+  coverImage  String?
+  published   Boolean  @default(false)
+  authorId    String
+  author      User     @relation(fields: [authorId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([authorId])
+  @@index([slug])
 }

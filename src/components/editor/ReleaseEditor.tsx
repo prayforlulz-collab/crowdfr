@@ -479,6 +479,7 @@ export default function ReleaseEditor({ releaseId, organizationId, initialData, 
                                                                                                     <option value="embed">Embed Player</option>
                                                                                                     <option value="embed-floating">Embed Floating</option>
                                                                                                     <option value="redirect">Redirect</option>
+                                                                                                    <option value="presave">Native Pre-Save</option>
                                                                                                 </select>
                                                                                             </div>
                                                                                         )}

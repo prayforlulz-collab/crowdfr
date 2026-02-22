@@ -256,6 +256,7 @@ export default function SectionRenderer({ sections, context }: SectionRendererPr
                     <LinksSection
                         key={section.id}
                         data={section.data}
+                        context={context}
                         onLinkClick={trackClick}
                         onPlay={section.data.embedMode === 'inline' ? undefined : handlePlay}
                     />

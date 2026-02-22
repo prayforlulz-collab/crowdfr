@@ -22,14 +22,15 @@ interface LinksSectionProps {
         showLogos?: boolean
     }
     typeFilter?: 'streaming' | 'social'
-    onLinkClick?: (options: { linkUrl: string; linkType: 'streaming' | 'social' | 'custom'; linkLabel?: string }) => void
+    context?: any
+    onLinkClick?: (options: { linkUrl: string; linkType: 'streaming' | 'social' | 'custom' | 'presave'; linkLabel?: string }) => void
     onPlay?: (platform: 'spotify' | 'apple-music' | 'soundcloud' | 'youtube', url: string) => void
 }
 
 import { getEmbedUrl } from "@/lib/utils/embed"
 import { useState } from "react"
 
-export default function LinksSection({ data, typeFilter, onLinkClick, onPlay }: LinksSectionProps) {
+export default function LinksSection({ data, typeFilter, context, onLinkClick, onPlay }: LinksSectionProps) {
     const variant = data.variant || 'list'
     const [activeInline, setActiveInline] = useState<{ platform: any, url: any } | null>(null)
 
@@ -225,7 +226,18 @@ export default function LinksSection({ data, typeFilter, onLinkClick, onPlay }: 
 
         const isStreaming = link.type === 'streaming'
 
-        if (link.behavior === 'embed' && isStreaming) {
+        if (link.behavior === 'presave') {
+            if (link.platform === 'spotify' && context?.releaseId) {
+                const currentUrl = encodeURIComponent(window.location.href);
+                // Open popup or redirect. Let's redirect for simplicity as popup can get blocked.
+                window.location.href = `/api/auth/spotify?releaseId=${context.releaseId}&redirectUrl=${currentUrl}`;
+                if (onLinkClick) {
+                    onLinkClick({ linkUrl: link.url, linkType: 'presave', linkLabel: `Pre-save on ${link.name}` });
+                }
+            } else {
+                window.open(link.url, '_blank')
+            }
+        } else if (link.behavior === 'embed' && isStreaming) {
             if (activeInline?.url === link.url) {
                 setActiveInline(null)
             } else {
@@ -263,7 +275,8 @@ export default function LinksSection({ data, typeFilter, onLinkClick, onPlay }: 
 
     const renderLink = (link: any, index: number) => {
         const isStreaming = link.type === 'streaming'
-        const labelText = isStreaming ? (link.behavior === 'embed' ? 'Play' : 'Listen') : 'Visit'
+        let labelText = isStreaming ? (link.behavior === 'embed' ? 'Play' : 'Listen') : 'Visit'
+        if (link.behavior === 'presave') labelText = 'Pre-Save'
 
         return (
             <div
@@ -376,7 +389,7 @@ export default function LinksSection({ data, typeFilter, onLinkClick, onPlay }: 
                                             </div>
                                             <div className="text-left">
                                                 <span className="block text-xs font-black uppercase tracking-widest text-zinc-500 mb-1">{link.name}</span>
-                                                <span className="block text-lg font-bold">Listen Now</span>
+                                                <span className="block text-lg font-bold">{link.behavior === 'presave' ? 'Pre-Save' : 'Listen Now'}</span>
                                             </div>
                                         </div>
                                         <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all">
