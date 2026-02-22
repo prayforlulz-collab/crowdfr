@@ -4,7 +4,7 @@ const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 const FROM_EMAIL = process.env.SENDGRID_FROM_EMAIL || "noreply@crowdfr.com"; // Use configured sender or default
 
 export async function sendVerificationEmail(email: string, token: string, name?: string) {
-    const confirmLink = `${baseUrl}/verify-email?token=${token}`;
+    const confirmLink = `${baseUrl}/api/auth/verify?token=${token}`;
 
     const html = `
     <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; color: #333;">
