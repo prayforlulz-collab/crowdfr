@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import PricingPlans from "@/components/PricingPlans"
-import { TierId, PRICING_TIERS } from "@/lib/pricing"
+import { TierId, getTier } from "@/lib/pricing"
 
 export default function OnboardingPage() {
     const [step, setStep] = useState(1) // 1: Org Details, 2: Links, 3: Pricing
@@ -72,8 +72,8 @@ export default function OnboardingPage() {
 
             const org = await res.json()
 
-            // If a paid tier is selected, redirect to Stripe Checkout
-            if (PRICING_TIERS[tierId].price !== null && PRICING_TIERS[tierId].price > 0) {
+            const tier = getTier(tierId)
+            if (tier.price !== null && tier.price > 0) {
                 const checkoutRes = await fetch("/api/stripe/create-checkout-session", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
@@ -160,7 +160,7 @@ export default function OnboardingPage() {
                                 <label className="block text-gray-300 text-xs font-semibold mb-2 uppercase tracking-wider">Workspace URL</label>
                                 <div className="flex items-center">
                                     <span className="bg-white/5 border border-r-0 border-white/10 rounded-l-xl px-4 py-3 text-gray-500 text-sm whitespace-nowrap">
-                                        dropsite.com/
+                                        crowdfr.com/
                                     </span>
                                     <input
                                         type="text"
