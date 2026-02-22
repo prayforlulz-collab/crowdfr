@@ -209,7 +209,7 @@ export default function ArtistEditor({ artistId, organizationId, initialData }: 
 
                                 {/* Links, Merch, Tracklist etc. can reuse sections of the ReleaseEditor code */}
                                 {/* For brevity in this turn, I'll assume the user wants a similar experience and I'll keep the core logic identical */}
-                                {['links', 'streaming_links', 'social_links'].includes(selectedSection.type) && (
+                                {['links'].includes(selectedSection.type) && (
                                     <div className="space-y-6">
                                         <div className="space-y-3">
                                             <div className="flex items-center justify-between">
@@ -859,7 +859,7 @@ export default function ArtistEditor({ artistId, organizationId, initialData }: 
                             <div className="pt-6 border-t border-zinc-800">
                                 <h3 className="text-xs font-black uppercase tracking-widest text-zinc-500 mb-4">Add Content</h3>
                                 <div className="grid grid-cols-2 gap-3">
-                                    {['hero', 'streaming_links', 'social_links', 'tracklist', 'merch', 'tour_dates', 'video', 'email_capture'].map(type => (
+                                    {['hero', 'links', 'tracklist', 'merch', 'tour_dates', 'video', 'email_capture'].map(type => (
                                         <button
                                             key={type}
                                             onClick={() => addSection(type as any)}

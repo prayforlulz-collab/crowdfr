@@ -28,7 +28,7 @@ export default function ReleaseEditor({ releaseId, organizationId, initialData, 
 
         return [
             { id: "hero-1", type: "hero", data: { title: initialData.title || 'New Release', subtitle: initialData.subtitle || '', variant: 'centered', releaseDate: '' } },
-            { id: "links-1", type: "streaming_links", data: { links: [], showLogos: true, useButton: false } }
+            { id: "links-1", type: "links", data: { links: [], showLogos: true, useButton: false } }
         ] as Section[]
     })
     const [selectedSectionId, setSelectedSectionId] = useState<string | null>(null)
@@ -387,7 +387,7 @@ export default function ReleaseEditor({ releaseId, organizationId, initialData, 
                                                 </div>
                                             </div>
                                         )}
-                                        {['links', 'streaming_links', 'social_links', 'merch', 'tour_dates', 'video', 'email_capture', 'bio', 'contact'].includes(selectedSection?.type || '') && (
+                                        {['links', 'merch', 'tour_dates', 'video', 'email_capture', 'bio', 'contact'].includes(selectedSection?.type || '') && (
                                             <div className="space-y-6">
                                                 <div className="flex items-center justify-between p-3 bg-purple-500/10 border border-purple-500/20 rounded-xl">
                                                     <div className="flex flex-col">
@@ -404,7 +404,7 @@ export default function ReleaseEditor({ releaseId, organizationId, initialData, 
 
                                                 {!selectedSection?.data.inheritFromArtist && (
                                                     <>
-                                                        {['links', 'streaming_links', 'social_links'].includes(selectedSection?.type || '') && (
+                                                        {['links'].includes(selectedSection?.type || '') && (
                                                             <div className="space-y-6">
                                                                 <div className="space-y-3">
                                                                     {(() => {
@@ -510,7 +510,7 @@ export default function ReleaseEditor({ releaseId, organizationId, initialData, 
                                                         )}
                                                     </>
                                                 )}
-                                                {['links', 'streaming_links', 'social_links'].includes(selectedSection?.type || '') && (
+                                                {['links'].includes(selectedSection?.type || '') && (
                                                     <div className="space-y-3 pt-6 border-t border-zinc-800">
                                                         <div className="flex items-center justify-between">
                                                             <label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Show Service Logos</label>
@@ -786,8 +786,7 @@ export default function ReleaseEditor({ releaseId, organizationId, initialData, 
                                 <div className="grid grid-cols-2 gap-3">
                                     {[
                                         { type: 'hero', label: 'Hero' },
-                                        { type: 'streaming_links', label: 'Streaming' },
-                                        { type: 'social_links', label: 'Social' },
+                                        { type: 'links', label: 'Links' },
                                         { type: 'tracklist', label: 'Tracklist' },
                                         { type: 'tour_dates', label: 'Tour Dates' },
                                         { type: 'merch', label: 'Merch' },
