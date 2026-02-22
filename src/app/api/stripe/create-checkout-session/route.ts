@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth/next"
 import { authOptions } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 import { stripe } from "@/lib/stripe"
-import { PRICING_TIERS } from "@/lib/pricing"
+import { getTier } from "@/lib/pricing"
 
 export async function POST(req: Request) {
     try {
@@ -35,7 +35,7 @@ export async function POST(req: Request) {
         }
 
         const org = membership.organization
-        const targetTier = PRICING_TIERS[tierId as keyof typeof PRICING_TIERS]
+        const targetTier = getTier(tierId)
 
         if (!targetTier) {
             return NextResponse.json({ message: "Invalid tier" }, { status: 400 })

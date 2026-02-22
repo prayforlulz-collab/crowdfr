@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma"
-import { PRICING_TIERS, TierId, TierLimits } from "./pricing"
+import { getTier, TierId, TierLimits } from "./pricing"
 
 export async function getOrganizationTier(organizationId: string): Promise<TierId> {
     const org = await prisma.organization.findUnique({
@@ -10,7 +10,7 @@ export async function getOrganizationTier(organizationId: string): Promise<TierI
 }
 
 export function getTierLimits(tier: TierId): TierLimits {
-    return PRICING_TIERS[tier]?.limits || PRICING_TIERS.FREE.limits
+    return getTier(tier).limits
 }
 
 export interface UsageStats {
