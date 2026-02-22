@@ -114,8 +114,11 @@ model Artist {
   organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   releases       Release[]
   isSuspended    Boolean      @default(false)
-  isDeleted      Boolean      @default(false)
-  deletedAt      DateTime?
+  isDeleted         Boolean      @default(false)
+  deletedAt         DateTime?
+  facebookPixelId   String?
+  tiktokPixelId     String?
+  googleAnalyticsId String?
 }
 
 model Release {

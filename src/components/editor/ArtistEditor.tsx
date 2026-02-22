@@ -17,6 +17,9 @@ interface ArtistEditorProps {
         bio?: string
         imageUrl?: string
         layout: any
+        facebookPixelId?: string
+        tiktokPixelId?: string
+        googleAnalyticsId?: string
     }
 }
 
@@ -52,6 +55,11 @@ export default function ArtistEditor({ artistId, organizationId, initialData }: 
     const [message, setMessage] = useState("")
     const [showMobilePreview, setShowMobilePreview] = useState(false)
 
+    // Tracking Pixels
+    const [facebookPixelId, setFacebookPixelId] = useState(initialData.facebookPixelId || "")
+    const [tiktokPixelId, setTiktokPixelId] = useState(initialData.tiktokPixelId || "")
+    const [googleAnalyticsId, setGoogleAnalyticsId] = useState(initialData.googleAnalyticsId || "")
+
     const selectedSection = sections.find(s => s.id === selectedSectionId)
 
     const handleSave = async () => {
@@ -66,6 +74,10 @@ export default function ArtistEditor({ artistId, organizationId, initialData }: 
                 payload.imageUrl = heroSection.data.coverImage
                 payload.bio = heroSection.data.subtitle
             }
+
+            payload.facebookPixelId = facebookPixelId
+            payload.tiktokPixelId = tiktokPixelId
+            payload.googleAnalyticsId = googleAnalyticsId
 
             const res = await fetch(`/api/artists/${artistId}`, {
                 method: "PATCH",
@@ -879,6 +891,43 @@ export default function ArtistEditor({ artistId, organizationId, initialData }: 
                                     ))}
                                 </div>
                             </div>
+
+                            <div className="pt-6 border-t border-zinc-800">
+                                <h3 className="text-xs font-black uppercase tracking-widest text-zinc-500 mb-4">Tracking Pixels</h3>
+                                <div className="space-y-4">
+                                    <div>
+                                        <label className="block text-[10px] font-black uppercase tracking-widest text-zinc-500 mb-2">Facebook Pixel ID</label>
+                                        <input
+                                            type="text"
+                                            className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-purple-500"
+                                            value={facebookPixelId}
+                                            onChange={(e) => setFacebookPixelId(e.target.value)}
+                                            placeholder="e.g. 1234567890"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-[10px] font-black uppercase tracking-widest text-zinc-500 mb-2">TikTok Pixel ID</label>
+                                        <input
+                                            type="text"
+                                            className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-purple-500"
+                                            value={tiktokPixelId}
+                                            onChange={(e) => setTiktokPixelId(e.target.value)}
+                                            placeholder="e.g. CEK123..."
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-[10px] font-black uppercase tracking-widest text-zinc-500 mb-2">Google Analytics ID</label>
+                                        <input
+                                            type="text"
+                                            className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-purple-500"
+                                            value={googleAnalyticsId}
+                                            onChange={(e) => setGoogleAnalyticsId(e.target.value)}
+                                            placeholder="e.g. G-XXXXXXX"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     )}
                 </div>

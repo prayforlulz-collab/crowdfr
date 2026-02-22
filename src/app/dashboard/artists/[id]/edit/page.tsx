@@ -14,7 +14,10 @@ export default async function EditArtistPage({ params }: { params: Promise<{ id:
         name: artist.name,
         bio: artist.bio || "",
         imageUrl: artist.imageUrl || "",
-        layout: artist.layout || "[]", // Pass as string or object? ArtistEditor expects object in initialData.layout checks
+        layout: artist.layout || "[]",
+        facebookPixelId: artist.facebookPixelId || "",
+        tiktokPixelId: artist.tiktokPixelId || "",
+        googleAnalyticsId: artist.googleAnalyticsId || ""
     }
 
     return (

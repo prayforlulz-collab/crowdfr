@@ -55,7 +55,7 @@ export async function PUT(
     try {
         const { id } = await params
         const body = await req.json()
-        const { name, bio, imageUrl, layout, theme } = body
+        const { name, bio, imageUrl, layout, theme, facebookPixelId, tiktokPixelId, googleAnalyticsId } = body
 
         // Ensure user has access
         const membership = await prisma.membership.findFirst({
@@ -86,6 +86,9 @@ export async function PUT(
                 bio: bio !== undefined ? bio : undefined,
                 imageUrl: imageUrl !== undefined ? imageUrl : undefined,
                 layout: layout ? JSON.stringify(layout) : undefined,
+                facebookPixelId: facebookPixelId !== undefined ? facebookPixelId : undefined,
+                tiktokPixelId: tiktokPixelId !== undefined ? tiktokPixelId : undefined,
+                googleAnalyticsId: googleAnalyticsId !== undefined ? googleAnalyticsId : undefined,
                 // store theme in layout or separate field? 
                 // schema doesn't have theme field for Artist, so likely stored in layout or implied
                 // For now, we update what exists in schema

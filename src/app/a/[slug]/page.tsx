@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma"
 import SectionRenderer from "@/components/sections/SectionRenderer"
 import { notFound } from "next/navigation"
+import TrackingScripts from "@/components/TrackingScripts"
 
 export default async function ArtistPage({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = await params
@@ -16,6 +17,11 @@ export default async function ArtistPage({ params }: { params: Promise<{ slug: s
 
     return (
         <div className="min-h-screen bg-black">
+            <TrackingScripts
+                facebookPixelId={artist.facebookPixelId}
+                tiktokPixelId={artist.tiktokPixelId}
+                googleAnalyticsId={artist.googleAnalyticsId}
+            />
             {layout.length > 0 ? (
                 <SectionRenderer
                     sections={layout}
