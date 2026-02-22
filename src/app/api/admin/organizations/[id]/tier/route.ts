@@ -19,9 +19,9 @@ export async function POST(
     const body = await request.json()
     const { tier } = body
 
-    const validTiers = ["FREE", "PLAN_1", "PLAN_2"]
+    const validTiers = ["FREE", "PRO", "ENTERPRISE"]
     if (!tier || !validTiers.includes(tier)) {
-        return NextResponse.json({ error: "Invalid tier. Must be FREE, PLAN_1, or PLAN_2" }, { status: 400 })
+        return NextResponse.json({ error: "Invalid tier. Must be FREE, PRO, or ENTERPRISE" }, { status: 400 })
     }
 
     try {
