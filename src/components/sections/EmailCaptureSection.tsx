@@ -15,6 +15,10 @@ interface EmailCaptureSectionProps {
         progressive?: boolean
         emailButtonText?: string
         phoneButtonText?: string
+        popupOnLoad?: boolean
+        rewardType?: 'none' | 'link' | 'file'
+        rewardUrl?: string
+        rewardMessage?: string
     }
     context?: {
         organizationId: string
@@ -50,6 +54,10 @@ export default function EmailCaptureSection({ data, context }: EmailCaptureSecti
                     phoneButtonText: data.phoneButtonText
                 }}
                 progressive={data.progressive}
+                popupOnLoad={data.popupOnLoad}
+                rewardType={data.rewardType}
+                rewardUrl={data.rewardUrl}
+                rewardMessage={data.rewardMessage}
             />
         </div>
     )

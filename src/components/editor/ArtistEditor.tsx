@@ -559,6 +559,56 @@ export default function ArtistEditor({ artistId, organizationId, initialData }: 
                                                 </div>
                                             </div>
                                         )}
+
+                                        <div className="pt-4 mt-4 border-t border-zinc-800 space-y-4">
+                                            <div className="flex items-center justify-between">
+                                                <label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Popup on Load</label>
+                                                <input
+                                                    type="checkbox"
+                                                    checked={selectedSection.data.popupOnLoad || false}
+                                                    onChange={(e) => updateSectionData(selectedSection.id, { popupOnLoad: e.target.checked })}
+                                                />
+                                            </div>
+
+                                            <div className="space-y-4 pt-2">
+                                                <label className="text-[10px] font-black uppercase tracking-widest text-zinc-500 block mb-2">After Sign-Up Reward (Content Locker)</label>
+                                                <select
+                                                    className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-purple-500"
+                                                    value={selectedSection.data.rewardType || 'none'}
+                                                    onChange={(e) => updateSectionData(selectedSection.id, { rewardType: e.target.value })}
+                                                >
+                                                    <option value="none">None</option>
+                                                    <option value="link">Redirect to Link</option>
+                                                    <option value="file">File Download Link</option>
+                                                </select>
+
+                                                {selectedSection.data.rewardType && selectedSection.data.rewardType !== 'none' && (
+                                                    <div className="space-y-3 p-3 bg-zinc-800/50 border border-zinc-800 rounded-xl">
+                                                        <div>
+                                                            <label className="block text-[9px] font-bold uppercase text-zinc-500 mb-1">Reward URL</label>
+                                                            <input
+                                                                type="text"
+                                                                placeholder="https://..."
+                                                                className="w-full bg-zinc-900 border border-zinc-700 rounded-lg px-3 py-1.5 text-xs text-white"
+                                                                value={selectedSection.data.rewardUrl || ''}
+                                                                onChange={(e) => updateSectionData(selectedSection.id, { rewardUrl: e.target.value })}
+                                                            />
+                                                        </div>
+                                                        <div>
+                                                            <label className="block text-[9px] font-bold uppercase text-zinc-500 mb-1">Custom Success Message (Optional)</label>
+                                                            <input
+                                                                type="text"
+                                                                placeholder="Here is your reward!"
+                                                                className="w-full bg-zinc-900 border border-zinc-700 rounded-lg px-3 py-1.5 text-xs text-white"
+                                                                value={selectedSection.data.rewardMessage || ''}
+                                                                onChange={(e) => updateSectionData(selectedSection.id, { rewardMessage: e.target.value })}
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
+
                                     </div>
                                 )}
 

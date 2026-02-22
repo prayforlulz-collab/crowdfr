@@ -17,6 +17,10 @@ interface EmailCaptureProps {
         phoneButtonText?: string;
     };
     progressive?: boolean;
+    popupOnLoad?: boolean;
+    rewardType?: 'none' | 'link' | 'file';
+    rewardUrl?: string;
+    rewardMessage?: string;
 }
 
 import { useAnalytics } from "@/hooks/useAnalytics";
@@ -27,7 +31,11 @@ export default function EmailCapture({
     ctaText = "Join the Inner Circle",
     successMessage = "You're in! Check your inbox to confirm.",
     fields = { showName: true, showPhone: false },
-    progressive = false
+    progressive = false,
+    popupOnLoad = false,
+    rewardType = 'none',
+    rewardUrl = '',
+    rewardMessage = ''
 }: EmailCaptureProps) {
     const searchParams = useSearchParams();
     const [email, setEmail] = useState("");
@@ -36,6 +44,7 @@ export default function EmailCapture({
     const [status, setStatus] = useState<"idle" | "loading" | "success" | "error" | "verified">("idle");
     const [step, setStep] = useState<"email" | "phone">("email");
     const [error, setError] = useState("");
+    const [isPopupVisible, setIsPopupVisible] = useState(false);
     const { trackEvent } = useAnalytics({ organizationId, releaseId });
 
     useEffect(() => {
@@ -43,6 +52,22 @@ export default function EmailCapture({
             setStatus("verified");
         }
     }, [searchParams]);
+
+    useEffect(() => {
+        if (popupOnLoad) {
+            const hasSeenPopup = localStorage.getItem(`has_seen_popup_${organizationId}_${releaseId}`);
+            if (!hasSeenPopup && status !== 'success' && status !== 'verified') {
+                // slight delay to let the page load visually first
+                const timer = setTimeout(() => setIsPopupVisible(true), 1000);
+                return () => clearTimeout(timer);
+            }
+        }
+    }, [popupOnLoad, organizationId, releaseId, status]);
+
+    const closePopup = () => {
+        setIsPopupVisible(false);
+        localStorage.setItem(`has_seen_popup_${organizationId}_${releaseId}`, 'true');
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -99,25 +124,78 @@ export default function EmailCapture({
     };
 
     if (status === "success" || status === "verified") {
-        return (
-            <div className="flex flex-col items-center justify-center space-y-4 p-8 bg-zinc-900/50 backdrop-blur-md border border-zinc-800 rounded-2xl animate-in fade-in zoom-in-95 duration-500 text-center">
+        const finalMessage = rewardMessage || (status === "verified" ? "Email confirmed! You're all set." : successMessage);
+        const hasReward = rewardType && rewardType !== 'none' && rewardUrl;
+
+        const successContent = (
+            <div className="flex flex-col items-center justify-center space-y-6 p-8 bg-zinc-900/50 backdrop-blur-md border border-zinc-800 rounded-2xl animate-in fade-in zoom-in-95 duration-500 text-center relative">
+                {isPopupVisible && (
+                    <button onClick={closePopup} className="absolute top-4 right-4 p-2 text-zinc-500 hover:text-white transition-colors rounded-full hover:bg-zinc-800">
+                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                    </button>
+                )}
                 <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto animate-in zoom-in-50 duration-700 shadow-[0_0_30px_rgba(34,197,94,0.3)]">
                     <svg className="w-8 h-8 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
                     </svg>
                 </div>
-                <p className="text-zinc-100 font-semibold text-lg">
-                    {status === "verified" ? "Email confirmed! You're all set." : successMessage}
+                <p className="text-zinc-100 font-semibold text-lg max-w-sm">
+                    {finalMessage}
                 </p>
+
+                {hasReward && (
+                    <a
+                        href={rewardUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 px-8 py-4 bg-purple-600 hover:bg-purple-500 text-white font-bold rounded-xl transition-all active:scale-[0.98] shadow-[0_0_20px_rgba(168,85,247,0.3)]"
+                        onClick={(e) => {
+                            if (isPopupVisible) closePopup();
+                        }}
+                    >
+                        {rewardType === 'file' ? (
+                            <>
+                                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+                                Download Now
+                            </>
+                        ) : (
+                            <>
+                                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+                                Access Content
+                            </>
+                        )}
+                    </a>
+                )}
             </div>
         );
+
+        if (isPopupVisible) {
+            return (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-300">
+                    <div className="w-full max-w-md relative">
+                        {successContent}
+                    </div>
+                </div>
+            );
+        }
+
+        return successContent;
     }
 
     const showNameField = fields.showName && (!progressive || email.includes("@"));
     const showPhoneField = fields.showPhone && (!progressive || (email.includes("@") && (!fields.showName || name.length > 1)));
 
-    return (
-        <section className="w-full max-w-md mx-auto p-[1px] bg-gradient-to-br from-zinc-700/50 via-zinc-900 to-zinc-700/50 rounded-3xl shadow-2xl">
+    const captureContent = (
+        <section className="w-full max-w-md mx-auto p-[1px] bg-gradient-to-br from-zinc-700/50 via-zinc-900 to-zinc-700/50 rounded-3xl shadow-2xl relative">
+            {isPopupVisible && (
+                <button
+                    onClick={closePopup}
+                    className="absolute top-4 right-4 p-2 text-zinc-500 hover:text-white transition-colors rounded-full hover:bg-zinc-800 z-10"
+                    type="button"
+                >
+                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+            )}
             <div className="p-6 sm:p-8 bg-zinc-900/95 backdrop-blur-md rounded-[calc(1.5rem-1px)]">
                 <div className="flex flex-col space-y-6">
                     <div className="space-y-2">
@@ -247,4 +325,16 @@ export default function EmailCapture({
             </div>
         </section>
     );
+
+    if (isPopupVisible) {
+        return (
+            <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-300">
+                <div className="w-full max-w-md relative">
+                    {captureContent}
+                </div>
+            </div>
+        );
+    }
+
+    return captureContent;
 }
