@@ -32,17 +32,25 @@ export async function POST(req: Request) {
         })
 
         // Generate verification token
-        const verificationToken = await generateVerificationToken(email)
-
-        // Send verification email
-        await sendVerificationEmail(email, verificationToken.token, name)
+        try {
+            const verificationToken = await generateVerificationToken(email)
+            // Send verification email
+            await sendVerificationEmail(email, verificationToken.token, name)
+        } catch (emailError) {
+            console.error("Failed to send verification email:", emailError)
+            // We don't throw here so the user creation still succeeds
+            // They just won't get the email if the API keys are missing/invalid
+        }
 
         return NextResponse.json({
             user: { id: user.id, email: user.email, name: user.name },
-            message: "Verification email sent"
+            message: "User created successfully. (Note: Email service may be limited during setup)"
         }, { status: 201 })
     } catch (error) {
-        console.error("Registration error:", error)
-        return NextResponse.json({ message: "Internal server error" }, { status: 500 })
+        console.error("Registration error details:", error)
+        return NextResponse.json({
+            message: "Internal server error",
+            error: error instanceof Error ? error.message : "Unknown error"
+        }, { status: 500 })
     }
 }
