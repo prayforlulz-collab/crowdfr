@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma"
 import { notFound } from "next/navigation"
 import Link from "next/link"
 import ReactMarkdown from "react-markdown"
+import remarkGfm from "remark-gfm"
 import { ArrowLeft } from "lucide-react"
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
@@ -36,15 +37,9 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                     <ArrowLeft className="w-4 h-4" />
                     Back to Blog
                 </Link>
-
                 <article className="space-y-8">
                     <header className="space-y-6 text-center">
-                        <div className="flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-widest text-purple-500">
-                            <span>{new Date(post.createdAt).toLocaleDateString()}</span>
-                            <span>&bull;</span>
-                            <span>{post.author?.name || 'CrowdFR Staff'}</span>
-                        </div>
-                        <h1 className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-tight">
+                        <h1 className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-tight mt-12 mb-8">
                             {post.title}
                         </h1>
                     </header>
@@ -77,14 +72,21 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                                             {children}
                                         </code>
                                     ) : (
-                                        <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 my-6 overflow-x-auto">
-                                            <code className="text-sm font-mono text-zinc-300" {...props}>
+                                        <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 my-6 overflow-x-auto custom-scrollbar">
+                                            <code className="text-sm font-mono text-zinc-300 min-w-full" {...props}>
                                                 {children}
                                             </code>
                                         </div>
                                     )
                                 },
+                                table: ({ node, ...props }) => <div className="overflow-x-auto my-8 border border-zinc-800 rounded-xl"><table className="w-full text-left border-collapse text-sm" {...props} /></div>,
+                                thead: ({ node, ...props }) => <thead className="bg-zinc-900 border-b border-zinc-800 text-zinc-400 font-bold uppercase tracking-widest text-xs" {...props} />,
+                                tbody: ({ node, ...props }) => <tbody className="divide-y divide-zinc-800/50" {...props} />,
+                                tr: ({ node, ...props }) => <tr className="hover:bg-zinc-900/50 transition-colors" {...props} />,
+                                th: ({ node, ...props }) => <th className="px-6 py-4 font-black" {...props} />,
+                                td: ({ node, ...props }) => <td className="px-6 py-4 text-zinc-300" {...props} />,
                             }}
+                            remarkPlugins={[remarkGfm]}
                         >
                             {post.content}
                         </ReactMarkdown>

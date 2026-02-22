@@ -36,12 +36,7 @@ export default async function BlogPage() {
                                     </div>
                                 )}
                                 <div className="p-6 flex flex-col flex-1">
-                                    <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-zinc-500 mb-4">
-                                        <span>{new Date(post.createdAt).toLocaleDateString()}</span>
-                                        <span>&bull;</span>
-                                        <span>{post.author?.name || 'CrowdFR Staff'}</span>
-                                    </div>
-                                    <h2 className="text-2xl font-black uppercase tracking-tight mb-3 group-hover:text-purple-400 transition-colors">
+                                    <h2 className="text-2xl font-black uppercase tracking-tight mt-2 mb-3 group-hover:text-purple-400 transition-colors">
                                         {post.title}
                                     </h2>
                                     {post.excerpt && (
