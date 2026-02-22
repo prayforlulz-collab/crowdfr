@@ -70,9 +70,9 @@ export async function POST(req: Request) {
             }
         }
 
-        // Generate slug from name
-        const baseSlug = name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "")
-        const slug = `${baseSlug}-${Date.now().toString(36)}`
+        // Generate unique slug from name
+        const { generateUniqueSlug } = await import("@/lib/utils/slugs")
+        const slug = await generateUniqueSlug(name, "artist")
 
         if (!membership) {
             // Auto-create a personal organization

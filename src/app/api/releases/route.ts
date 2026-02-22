@@ -36,9 +36,9 @@ export async function POST(req: Request) {
             }
         }
 
-        // Generate slug from title
-        const baseSlug = title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "")
-        const slug = `${baseSlug}-${Date.now().toString(36)}`
+        // Generate unique slug from title
+        const { generateUniqueSlug } = await import("@/lib/utils/slugs")
+        const slug = await generateUniqueSlug(title, "release")
 
         // Find or create the user's organization
         let membership = await prisma.membership.findFirst({
@@ -80,10 +80,11 @@ export async function POST(req: Request) {
         })
 
         if (!artist) {
+            const artistSlug = await generateUniqueSlug(artistName, "artist")
             artist = await prisma.artist.create({
                 data: {
                     name: artistName,
-                    slug: `${artistSlug}-${Date.now().toString(36)}`,
+                    slug: artistSlug,
                     organizationId: membership.organizationId,
                 },
             })
