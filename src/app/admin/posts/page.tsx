@@ -61,6 +61,7 @@ export default function AdminPostsPage() {
                             <th className="px-6 py-4">Title</th>
                             <th className="px-6 py-4">Status</th>
                             <th className="px-6 py-4">Author</th>
+                            <th className="px-6 py-4">Views</th>
                             <th className="px-6 py-4">Created</th>
                             <th className="px-6 py-4 text-right">Actions</th>
                         </tr>
@@ -75,6 +76,7 @@ export default function AdminPostsPage() {
                                     </span>
                                 </td>
                                 <td className="px-6 py-4 text-zinc-400">{post.author?.name || post.authorId}</td>
+                                <td className="px-6 py-4 text-zinc-400 font-mono">{post.views?.toLocaleString() || 0}</td>
                                 <td className="px-6 py-4 text-zinc-400">{new Date(post.createdAt).toLocaleDateString()}</td>
                                 <td className="px-6 py-4 text-right">
                                     <div className="flex items-center justify-end gap-2">

@@ -4,6 +4,7 @@ import Link from "next/link"
 import ReactMarkdown from "react-markdown"
 import remarkGfm from "remark-gfm"
 import { ArrowLeft } from "lucide-react"
+import { BlogViewTracker } from "@/components/BlogViewTracker"
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = await params
@@ -32,6 +33,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
     return (
         <div className="min-h-screen bg-black text-white font-sans pb-32">
+            <BlogViewTracker slug={post.slug} />
             {/* Top Navigation Bar */}
             <div className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-xl border-b border-zinc-800">
                 <div className="max-w-4xl mx-auto px-6 h-16 flex items-center justify-between">
