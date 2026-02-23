@@ -127,8 +127,12 @@ async function main() {
         content += CTA_BLOCK;
 
         // Create excerpt
-        const excerptMatch = content.match(/^([^#].*)/m);
-        const excerpt = excerptMatch ? excerptMatch[0].substring(0, 160) + '...' : rawTitle;
+        const excerptMatch = content.match(/^([^#\-\>].*)/m);
+        let excerpt = excerptMatch ? excerptMatch[0].trim() : rawTitle;
+        // Strip basic markdown
+        excerpt = excerpt.replace(/(\*\*|__)(.*?)\1/g, '$2'); // Bold
+        excerpt = excerpt.replace(/(\*|_)(.*?)\1/g, '$2'); // Italic
+        excerpt = excerpt.substring(0, 160) + '...';
 
         // Save to DB
         await prisma.post.upsert({

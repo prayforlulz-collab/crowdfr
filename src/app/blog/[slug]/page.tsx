@@ -31,12 +31,21 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     if (!post || !post.published) notFound()
 
     return (
-        <div className="min-h-screen bg-black text-white font-sans py-24">
-            <div className="max-w-3xl mx-auto px-6">
-                <Link href="/blog" className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-zinc-500 hover:text-white transition-colors mb-12">
-                    <ArrowLeft className="w-4 h-4" />
-                    Back to Blog
-                </Link>
+        <div className="min-h-screen bg-black text-white font-sans pb-32">
+            {/* Top Navigation Bar */}
+            <div className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-xl border-b border-zinc-800">
+                <div className="max-w-4xl mx-auto px-6 h-16 flex items-center justify-between">
+                    <Link href="/" className="font-black text-lg tracking-tighter uppercase text-white hover:text-purple-400 transition-colors">
+                        CrowdFR
+                    </Link>
+                    <Link href="/blog" className="text-xs font-bold uppercase tracking-widest text-zinc-400 hover:text-white transition-colors flex items-center gap-2">
+                        <ArrowLeft className="w-4 h-4" />
+                        Blog Home
+                    </Link>
+                </div>
+            </div>
+
+            <div className="max-w-3xl mx-auto px-6 pt-32">
                 <article className="space-y-8">
                     <header className="space-y-6 text-center">
                         <h1 className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-tight mt-12 mb-8">
@@ -45,7 +54,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                     </header>
 
                     {post.coverImage && (
-                        <div className="w-full aspect-[21/9] rounded-3xl overflow-hidden bg-zinc-900 border border-zinc-800">
+                        <div className="w-full aspect-square rounded-3xl overflow-hidden bg-zinc-900 border border-zinc-800">
                             <img
                                 src={post.coverImage}
                                 alt={post.title}
@@ -92,6 +101,22 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                         </ReactMarkdown>
                     </div>
                 </article>
+            </div>
+
+            {/* Bottom Floating CTA Bar */}
+            <div className="fixed bottom-0 left-0 right-0 z-50 p-4 md:p-6 pointer-events-none">
+                <div className="max-w-3xl mx-auto bg-zinc-900/90 backdrop-blur-xl border border-zinc-700/50 rounded-2xl p-4 md:p-5 flex flex-col md:flex-row items-center justify-between gap-4 pointer-events-auto shadow-2xl shadow-purple-900/20">
+                    <div className="text-center md:text-left">
+                        <h4 className="text-sm font-black uppercase tracking-widest text-white mb-1">Ready to own your audience?</h4>
+                        <p className="text-xs text-zinc-400">Join CrowdFR and start capturing emails instantly.</p>
+                    </div>
+                    <Link
+                        href="/register"
+                        className="w-full md:w-auto px-6 py-3 bg-purple-600 hover:bg-purple-500 text-white text-xs font-black uppercase tracking-widest rounded-xl transition-all shadow-[0_0_15px_rgba(168,85,247,0.3)] text-center"
+                    >
+                        Try for Free
+                    </Link>
+                </div>
             </div>
         </div>
     )

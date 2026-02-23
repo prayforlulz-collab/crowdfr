@@ -19,7 +19,6 @@ export default async function BlogPage() {
             <div className="max-w-4xl mx-auto px-6">
                 <div className="space-y-4 mb-16 text-center">
                     <h1 className="text-4xl md:text-6xl font-black uppercase tracking-tighter">The Blog</h1>
-                    <p className="text-zinc-400 text-lg">News, updates, and stories from CrowdFR.</p>
                 </div>
 
                 <div className="grid gap-8 md:grid-cols-2">
@@ -27,7 +26,7 @@ export default async function BlogPage() {
                         <Link key={post.id} href={`/blog/${post.slug}`} className="group block h-full">
                             <article className="bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden h-full flex flex-col hover:border-zinc-700 transition-colors">
                                 {post.coverImage && (
-                                    <div className="w-full h-48 bg-zinc-800 overflow-hidden">
+                                    <div className="w-full aspect-square bg-zinc-800 overflow-hidden relative">
                                         <img
                                             src={post.coverImage}
                                             alt={post.title}
