@@ -126,13 +126,25 @@ async function main() {
         content = processInternalLinks(content, slug);
         content += CTA_BLOCK;
 
-        // Create excerpt
-        const excerptMatch = content.match(/^([^#\-\>].*)/m);
-        let excerpt = excerptMatch ? excerptMatch[0].trim() : rawTitle;
-        // Strip basic markdown
+        // Create excerpt: grab first line that isn't a heading/quote/list
+        let excerpt = '';
+        const lines = content.split('\n');
+        for (const line of lines) {
+            const trimmed = line.trim();
+            // Ignore headers, lists, quotes, dividers, and empty lines
+            if (trimmed && !trimmed.startsWith('#') && !trimmed.startsWith('>') && !trimmed.startsWith('-') && !trimmed.startsWith('![')) {
+                excerpt = trimmed;
+                break;
+            }
+        }
+        if (!excerpt) excerpt = rawTitle;
+
+        // Strip markdown bold and italic completely
         excerpt = excerpt.replace(/(\*\*|__)(.*?)\1/g, '$2'); // Bold
         excerpt = excerpt.replace(/(\*|_)(.*?)\1/g, '$2'); // Italic
-        excerpt = excerpt.substring(0, 160) + '...';
+        // Strip any lingering hash marks just in case
+        excerpt = excerpt.replace(/^#+\s+/g, '');
+        excerpt = excerpt.length > 160 ? excerpt.substring(0, 160) + '...' : excerpt;
 
         // Save to DB
         await prisma.post.upsert({

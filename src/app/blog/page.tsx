@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma"
 import Link from "next/link"
+import { ArrowLeft } from "lucide-react"
 import { Metadata } from "next"
 
 export const metadata: Metadata = {
@@ -15,8 +16,21 @@ export default async function BlogPage() {
     })
 
     return (
-        <div className="min-h-screen bg-black text-white font-sans py-24">
-            <div className="max-w-4xl mx-auto px-6">
+        <div className="min-h-screen bg-black text-white font-sans pb-32">
+            {/* Top Navigation Bar */}
+            <div className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-xl border-b border-zinc-800">
+                <div className="max-w-4xl mx-auto px-6 h-16 flex items-center justify-between">
+                    <Link href="/" className="text-xl md:text-2xl font-black bg-gradient-to-r from-indigo-400 to-teal-400 bg-clip-text text-transparent tracking-tighter hover:opacity-80 transition-opacity">
+                        Crowdfr
+                    </Link>
+                    <Link href="/" className="text-xs font-bold uppercase tracking-widest text-zinc-400 hover:text-white transition-colors flex items-center gap-2">
+                        <ArrowLeft className="w-4 h-4" />
+                        Back to Home
+                    </Link>
+                </div>
+            </div>
+
+            <div className="max-w-4xl mx-auto px-6 pt-32">
                 <div className="space-y-4 mb-16 text-center">
                     <h1 className="text-4xl md:text-6xl font-black uppercase tracking-tighter">The Blog</h1>
                 </div>
@@ -26,7 +40,7 @@ export default async function BlogPage() {
                         <Link key={post.id} href={`/blog/${post.slug}`} className="group block h-full">
                             <article className="bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden h-full flex flex-col hover:border-zinc-700 transition-colors">
                                 {post.coverImage && (
-                                    <div className="w-full aspect-square bg-zinc-800 overflow-hidden relative">
+                                    <div className="w-full aspect-video bg-zinc-800 overflow-hidden relative">
                                         <img
                                             src={post.coverImage}
                                             alt={post.title}
