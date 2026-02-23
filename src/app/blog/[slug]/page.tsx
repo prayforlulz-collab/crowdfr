@@ -11,7 +11,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     if (!post || !post.published) return { title: "Not Found" }
 
     return {
-        title: `${post.title} - CrowdFR Blog`,
+        title: `${post.title} - Crowdfr Blog`,
         description: post.excerpt || post.title,
         openGraph: {
             title: post.title,
@@ -35,8 +35,8 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
             {/* Top Navigation Bar */}
             <div className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-xl border-b border-zinc-800">
                 <div className="max-w-4xl mx-auto px-6 h-16 flex items-center justify-between">
-                    <Link href="/" className="font-black text-lg tracking-tighter uppercase text-white hover:text-purple-400 transition-colors">
-                        CrowdFR
+                    <Link href="/" className="text-xl md:text-2xl font-black bg-gradient-to-r from-indigo-400 to-teal-400 bg-clip-text text-transparent tracking-tighter hover:opacity-80 transition-opacity">
+                        Crowdfr
                     </Link>
                     <Link href="/blog" className="text-xs font-bold uppercase tracking-widest text-zinc-400 hover:text-white transition-colors flex items-center gap-2">
                         <ArrowLeft className="w-4 h-4" />
@@ -54,11 +54,11 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                     </header>
 
                     {post.coverImage && (
-                        <div className="w-full aspect-square rounded-3xl overflow-hidden bg-zinc-900 border border-zinc-800">
+                        <div className="w-full flex justify-center bg-zinc-900 border border-zinc-800 rounded-3xl overflow-hidden p-2 md:p-4">
                             <img
                                 src={post.coverImage}
                                 alt={post.title}
-                                className="w-full h-full object-cover"
+                                className="w-full h-auto max-h-[70vh] object-contain rounded-2xl"
                             />
                         </div>
                     )}
@@ -108,7 +108,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                 <div className="max-w-3xl mx-auto bg-zinc-900/90 backdrop-blur-xl border border-zinc-700/50 rounded-2xl p-4 md:p-5 flex flex-col md:flex-row items-center justify-between gap-4 pointer-events-auto shadow-2xl shadow-purple-900/20">
                     <div className="text-center md:text-left">
                         <h4 className="text-sm font-black uppercase tracking-widest text-white mb-1">Ready to own your audience?</h4>
-                        <p className="text-xs text-zinc-400">Join CrowdFR and start capturing emails instantly.</p>
+                        <p className="text-xs text-zinc-400">Join Crowdfr and start capturing emails instantly.</p>
                     </div>
                     <Link
                         href="/register"

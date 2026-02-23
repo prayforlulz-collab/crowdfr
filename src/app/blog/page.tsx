@@ -3,8 +3,8 @@ import Link from "next/link"
 import { Metadata } from "next"
 
 export const metadata: Metadata = {
-    title: "Blog - CrowdFR",
-    description: "Read the latest news and updates from CrowdFR.",
+    title: "Blog - Crowdfr",
+    description: "Read the latest news and updates from Crowdfr.",
 }
 
 export default async function BlogPage() {
