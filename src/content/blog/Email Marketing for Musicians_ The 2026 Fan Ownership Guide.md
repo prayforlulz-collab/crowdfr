@@ -21,11 +21,11 @@ The difference between a struggling artist and a career professional comes down 
 
 Email isn't a "newsletter"; it’s an automated relationship. Here is how you bridge the gap using the Crowdfr ecosystem:
 
-**1. The Trade (The Incentive):** Nobody joins a list for "updates." They join to get value. Use a Crowdfr landing page to offer an exclusive demo, a "Vault" password, or a discount code. You aren't asking for a favor; you’re making a trade.
+**The Trade (The Incentive):** Nobody joins a list for "updates." They join to get value. Use a Crowdfr landing page to offer an exclusive demo, a "Vault" password, or a discount code. You aren't asking for a favor; you’re making a trade.
 
-**2. The Handshake (The Welcome Sequence):** The moment they join, an automated email triggers. Don’t sell yet. Tell your origin story. Make them feel like an insider before you ever ask for a dollar.
+**The Handshake (The Welcome Sequence):** The moment they join, an automated email triggers. Don’t sell yet. Tell your origin story. Make them feel like an insider before you ever ask for a dollar.
 
-**3. The Pivot (The Monetization):** Once you’ve built trust, send the link to stream or buy. Because you own the channel, your conversion rate will dwarf any "cold" social media ad.
+**The Pivot (The Monetization):** Once you’ve built trust, send the link to stream or buy. Because you own the channel, your conversion rate will dwarf any "cold" social media ad.
 
 ### The $15 Fan vs. The $0.003 Stream
 
