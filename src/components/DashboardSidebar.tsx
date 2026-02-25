@@ -22,6 +22,7 @@ export default function DashboardSidebar() {
         { href: "/dashboard/fans", label: "Fans", icon: "👥" },
         { href: "/dashboard/analytics", label: "Analytics", icon: "📊" },
         { href: "/dashboard/campaigns", label: "Email Center", icon: "✉️" },
+        { href: "/dashboard/presaves", label: "Pre-Saves", icon: "🕒" },
     ]
 
     return (
