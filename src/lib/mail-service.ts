@@ -68,3 +68,39 @@ export async function sendFanSubscriptionConfirmation(email: string, link: strin
         html,
     });
 }
+
+export async function sendPasswordResetEmail(email: string, token: string, name?: string) {
+    const resetLink = `${baseUrl}/reset-password?token=${token}`;
+
+    const html = `
+    <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; color: #333;">
+        <h1 style="color: #000;">Reset Your Password</h1>
+        <p>Hi ${name || "there"},</p>
+        <p>Someone recently requested a password change for your Crowdfr account. If this was you, you can set a new password here:</p>
+        <div style="text-align: center; margin: 30px 0;">
+            <a href="${resetLink}" style="background-color: #000; color: #fff; padding: 12px 24px; text-decoration: none; border-radius: 4px; font-weight: bold;">Reset Password</a>
+        </div>
+        <p>Or copy and paste this link into your browser:</p>
+        <p><a href="${resetLink}">${resetLink}</a></p>
+        <p>If you don't want to change your password or didn't request this, just ignore and delete this message.</p>
+        <p>This link will expire in 1 hour.</p>
+    </div>
+    `;
+
+    if (!process.env.SENDGRID_API_KEY) {
+        console.log("------------------------------------------");
+        console.log(`[Dev Email] To: ${email}`);
+        console.log(`[Dev Email] Subject: Reset your Crowdfr password`);
+        console.log(`[Dev Email] Link: ${resetLink}`);
+        console.log("------------------------------------------");
+        return { success: true };
+    }
+
+    return await sendEmail({
+        to: email,
+        from: FROM_EMAIL,
+        subject: "Reset your Crowdfr password",
+        html,
+    });
+}
+
