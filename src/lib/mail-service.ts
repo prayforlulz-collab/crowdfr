@@ -70,7 +70,8 @@ export async function sendFanSubscriptionConfirmation(email: string, link: strin
 }
 
 export async function sendPasswordResetEmail(email: string, token: string, name?: string) {
-    const resetLink = `${baseUrl}/reset-password?token=${token}`;
+    const cleanBaseUrl = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
+    const resetLink = `${cleanBaseUrl}/reset-password?token=${token}`;
 
     const html = `
     <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; color: #333;">
