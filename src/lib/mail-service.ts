@@ -102,6 +102,7 @@ export async function sendPasswordResetEmail(email: string, token: string, name?
         from: FROM_EMAIL,
         subject: "Reset your Crowdfr password",
         html,
+        disableTracking: true,
     });
 }
 

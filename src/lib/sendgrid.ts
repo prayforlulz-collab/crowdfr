@@ -9,6 +9,7 @@ export async function sendEmail(data: {
     text?: string;
     sendAt?: number; // Unix timestamp
     campaignId?: string;
+    disableTracking?: boolean;
 }) {
     const apiKey = process.env.SENDGRID_API_KEY;
 
@@ -50,6 +51,15 @@ export async function sendEmail(data: {
             },
         ],
     };
+
+    if (data.disableTracking) {
+        payload.tracking_settings = {
+            click_tracking: {
+                enable: false,
+                enable_text: false
+            }
+        };
+    }
 
     if (data.campaignId) {
         payload.categories = [data.campaignId];
